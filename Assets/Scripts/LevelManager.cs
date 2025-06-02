@@ -7,6 +7,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Target[] targets;
     [SerializeField] private float nextLevelDelay = 2f;
     [SerializeField] private string nextLevelName;
+    [SerializeField] private bool isFinalLevel;
+    [SerializeField] private string endScreenSceneName = "EndScreen";
     
     private int completedTargets = 0;
     
@@ -40,9 +42,14 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Level Complete!");
         
-        // If there's a next level specified, load it after a delay
-        if (!string.IsNullOrEmpty(nextLevelName))
+        if (isFinalLevel)
         {
+            // Load the end screen scene
+            SceneManager.LoadScene(endScreenSceneName);
+        }
+        else if (!string.IsNullOrEmpty(nextLevelName))
+        {
+            // Load next level after delay
             Invoke(nameof(LoadNextLevel), nextLevelDelay);
         }
     }
